@@ -1,0 +1,118 @@
+version: '3'
+
+networks:
+
+  redisnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/19
+
+services:
+
+  redis-cluster:
+    image: redis:latest
+    command: redis-cli -p 7001 --cluster create 10.0.0.11:7001 10.0.0.12:7002 10.0.0.13:7003 10.0.0.14:7004 10.0.0.15:7005 10.0.0.16:7006 10.0.0.17:7007 10.0.0.18:7008 10.0.0.19:7009 --cluster-replicas 2 --cluster-yes
+    depends_on:
+      - redis-1
+      - redis-2
+      - redis-3
+      - redis-4
+      - redis-5
+      - redis-6
+      - redis-7
+      - redis-8
+      - redis-9
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.2
+
+  redis-1:
+    image: redis-cluster-node
+    environment:
+      X_REDIS_PORT: 7001
+    ports:
+      - "7001:7001"
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.11
+
+  redis-2:
+    image: redis-cluster-node
+    environment:
+      X_REDIS_PORT: 7002
+    ports:
+      - "7002:7002"
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.12
+
+  redis-3:
+    image: redis-cluster-node
+    environment:
+      X_REDIS_PORT: 7003
+    ports:
+      - "7003:7003"
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.13
+
+  redis-4:
+    image: redis-cluster-node
+    environment:
+      X_REDIS_PORT: 7004
+    ports:
+      - "7004:7004"
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.14
+
+  redis-5:
+    image: redis-cluster-node
+    environment:
+      X_REDIS_PORT: 7005
+    ports:
+      - "7005:7005"
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.15
+
+  redis-6:
+    image: redis-cluster-node
+    environment:
+      X_REDIS_PORT: 7006
+    ports:
+      - "7006:7006"
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.16
+
+  redis-7:
+    image: redis-cluster-node
+    environment:
+      X_REDIS_PORT: 7007
+    ports:
+      - "7007:7007"
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.17
+
+  redis-8:
+    image: redis-cluster-node
+    environment:
+      X_REDIS_PORT: 7008
+    ports:
+      - "7008:7008"
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.18
+  
+  redis-9:
+    image: redis-cluster-node
+    environment:
+      X_REDIS_PORT: 7009
+    ports:
+      - "7009:7009"
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.19
